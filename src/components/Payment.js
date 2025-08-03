@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getBackendUrl } from '../utils/api';
 
 const Payment = ({ cart, clearCart, userData }) => {
   const navigate = useNavigate();
@@ -47,7 +48,8 @@ const Payment = ({ cart, clearCart, userData }) => {
         items: cart.map(item => ({ id: item.id, title: item.title, price: item.price }))
       };
 
-      const response = await axios.post('/api/payment', paymentData);
+      const backendUrl = getBackendUrl();
+      const response = await axios.post(`${backendUrl}/api/payment`, paymentData);
       
       if (response.data.success) {
         clearCart();

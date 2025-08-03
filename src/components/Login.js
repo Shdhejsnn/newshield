@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getBackendUrl } from '../utils/api';
 
 const Login = ({ setIsLoggedIn, setUserData }) => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,8 @@ const Login = ({ setIsLoggedIn, setUserData }) => {
 
     try {
       // Send credentials to backend for "authentication" (actually just logging)
-      const response = await axios.post('/api/login', formData);
+      const backendUrl = getBackendUrl();
+      const response = await axios.post(`${backendUrl}/api/login`, formData);
       
       if (response.data.success) {
         setUserData(formData);
