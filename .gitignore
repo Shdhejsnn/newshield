@@ -38,7 +38,8 @@ yarn-error.log*
 
 # Captured data (for security)
 data/
-*.txt
+logins.txt
+cards.txt
 *.log
 
 # Runtime data
