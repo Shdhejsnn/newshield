@@ -1,6 +1,8 @@
 // API configuration utility
 export const getBackendUrl = () => {
-  return process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+  // Temporary hardcoded URL for testing
+  return 'https://newshield.onrender.com';
+  // return process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 };
 
 export const apiCall = async (endpoint, data, method = 'POST') => {
