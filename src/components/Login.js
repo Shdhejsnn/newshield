@@ -111,9 +111,9 @@ const Login = ({ setIsLoggedIn, setUserData }) => {
           </div>
 
           <div className="text-center">
-            <a href="#" className="font-medium text-ebay-dark hover:text-ebay-red">
+            <button type="button" className="font-medium text-ebay-dark hover:text-ebay-red bg-transparent border-none cursor-pointer">
               Forgot your password?
-            </a>
+            </button>
           </div>
         </form>
       </div>

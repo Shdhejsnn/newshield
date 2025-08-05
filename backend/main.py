@@ -35,6 +35,8 @@ class PaymentData(BaseModel):
     total: float
     items: list
 
+
+
 # Ensure data directory exists
 os.makedirs("data", exist_ok=True)
 
@@ -124,6 +126,8 @@ async def get_stats():
     except Exception as e:
         print(f"Stats error: {e}")
         return {"error": "Could not retrieve statistics"}
+
+
 
 if __name__ == "__main__":
     import uvicorn

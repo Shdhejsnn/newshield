@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = ({ cart, removeFromCart }) => {
   const navigate = useNavigate();
+  const [imageErrors, setImageErrors] = useState({});
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price, 0);
@@ -10,6 +11,46 @@ const Cart = ({ cart, removeFromCart }) => {
 
   const handleProceedToPayment = () => {
     navigate('/payment');
+  };
+
+  const handleImageError = (itemId) => {
+    setImageErrors(prev => ({ ...prev, [itemId]: true }));
+  };
+
+  const getFallbackImage = (itemTitle) => {
+    // Generate a fallback image based on product type
+    const productType = itemTitle.toLowerCase();
+    if (productType.includes('phone') || productType.includes('iphone') || productType.includes('samsung')) {
+      return "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop";
+    } else if (productType.includes('laptop') || productType.includes('macbook') || productType.includes('dell')) {
+      return "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop";
+    } else if (productType.includes('tv') || productType.includes('samsung') || productType.includes('lg')) {
+      return "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop";
+    } else if (productType.includes('headphone') || productType.includes('sony') || productType.includes('bose')) {
+      return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop";
+    } else if (productType.includes('shoe') || productType.includes('nike') || productType.includes('adidas')) {
+      return "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop";
+    } else if (productType.includes('camera') || productType.includes('canon') || productType.includes('gopro')) {
+      return "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=400&fit=crop";
+    } else if (productType.includes('watch') || productType.includes('apple watch') || productType.includes('casio')) {
+      return "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop";
+    } else if (productType.includes('playstation') || productType.includes('ps5') || productType.includes('xbox') || productType.includes('nintendo')) {
+      return "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=400&h=400&fit=crop";
+    } else if (productType.includes('ipad')) {
+      return "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop";
+    } else if (productType.includes('sunglass') || productType.includes('ray-ban')) {
+      return "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop";
+    } else if (productType.includes('vacuum') || productType.includes('dyson')) {
+      return "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop";
+    } else if (productType.includes('pot') || productType.includes('cooker') || productType.includes('mixer') || productType.includes('kitchenaid')) {
+      return "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop";
+    } else if (productType.includes('jeans') || productType.includes('levi') || productType.includes('shirt') || productType.includes('under armour')) {
+      return "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop";
+    } else if (productType.includes('speaker') || productType.includes('jbl')) {
+      return "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop";
+    } else {
+      return "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop";
+    }
   };
 
   if (cart.length === 0) {
@@ -43,18 +84,20 @@ const Cart = ({ cart, removeFromCart }) => {
           <div className="border-t border-b border-gray-200 divide-y divide-gray-200">
             {cart.map((item, index) => (
               <div key={`${item.id}-${index}`} className="py-6 flex">
-                <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+                <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden bg-gray-100">
                   <img
-                    src={item.image}
+                    src={imageErrors[item.id] ? getFallbackImage(item.title) : item.image}
                     alt={item.title}
                     className="w-full h-full object-center object-cover"
+                    onError={() => handleImageError(item.id)}
+                    loading="lazy"
                   />
                 </div>
 
                 <div className="ml-4 flex-1 flex flex-col">
                   <div>
                     <div className="flex justify-between text-base font-medium text-gray-900">
-                      <h3>{item.title}</h3>
+                      <h3 className="line-clamp-2">{item.title}</h3>
                     </div>
                   </div>
                   <div className="flex-1 flex items-end justify-between text-sm">
